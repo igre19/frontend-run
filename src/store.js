@@ -12,6 +12,7 @@ export default {
   isAdmin: false,
   currentUser: {
     id: "",
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
