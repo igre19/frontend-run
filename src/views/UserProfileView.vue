@@ -80,7 +80,8 @@ import {
   updatePassword,
   EmailAuthProvider,
 } from "firebase/auth";
-
+import api from "@/connection";
+import store from "@/store";
 export default {
   data() {
     return {
@@ -119,17 +120,17 @@ export default {
         return;
       }
       try {
-        const user = auth.currentUser;
-        const credential = EmailAuthProvider.credential(
-          user.email,
-          this.currentPassword
-        );
-        await reauthenticateWithCredential(user, credential); //Prvo ponovno autentificira korisnika pomoću trenutne lozinke prije promjene lozinke.
-        await updatePassword(user, this.newPassword);
-        alert("Password successfully changed.");
-        this.currentPassword = "";
-        this.newPassword = "";
-        this.confirmPassword = "";
+        const authResponse = await api.post("/authAdmin", {
+          email: store.currentUser.email,
+          password: this.currentPassword,
+        });
+        console.log(this.newPassword);
+        console.log(store.currentUser._id);
+        const passChangeResponse = await api.put("/passAdmin", {
+          _id: store.currentUser._id,
+          password: this.newPassword,
+        });
+        console.log("Lozinke su iste+token", authResponse.data.token);
       } catch (error) {
         console.error("An error occurred while changing the password", error);
         if (error.code === "auth/wrong-password") {

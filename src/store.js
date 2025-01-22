@@ -4,7 +4,6 @@ import { reactive } from "vue";
 const state = reactive({
   token: localStorage.getItem("token") || null,
 });
-
 var currentUser = reactive({
   id: "",
   username: "",
@@ -13,7 +12,6 @@ var currentUser = reactive({
   email: "",
   password: "",
 });
-
 export default {
   searchTerm: "",
   isAdmin: false,
