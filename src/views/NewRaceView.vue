@@ -75,7 +75,7 @@ export default {
           naziv: this.newRaceName,
           vrsta: this.newRaceType,
           datum: this.newRaceDate,
-          loacija: this.newRaceLocation,
+          location: this.newRaceLocation,
           opis: this.newRaceDescription,
         });
         console.log(newRace);
