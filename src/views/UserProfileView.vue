@@ -67,6 +67,22 @@
     <button @click="changePassword" class="btn btn-primary">
       Change Password
     </button>
+    <h2 class="mt-4">My Races</h2>
+
+    <div v-if="races.length > 0">
+      <ul>
+        <li v-for="race in races" :key="race._id">
+          <strong>{{ race.naziv }}</strong> - {{ race.datum }}<br />
+          <span>Location: {{ race.location }}</span
+          ><br />
+          <span>Type: {{ race.vrsta }}</span
+          ><br />
+        </li>
+      </ul>
+    </div>
+    <div v-else>
+      <p>No races found for this user.</p>
+    </div>
   </div>
 </template>
 
@@ -80,6 +96,7 @@ export default {
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
+      races: [], // Initialize the races array here
     };
   },
   computed: {
@@ -95,15 +112,12 @@ export default {
       },
     },
     role() {
-      console.log(store.currentUser.role);
       return store.currentUser.role || "N/A"; // Default to 'N/A' if role is undefined
     },
   },
   methods: {
     async updateProfile() {
       try {
-        console.log(this.displayName);
-        console.log(this.email);
         const changeResponse = await api.put("/admin", {
           _id: store.currentUser._id,
           email: this.email,
@@ -141,6 +155,24 @@ export default {
         }
       }
     },
+
+    async fetchRacesByCreator() {
+      try {
+        // Fetch races created by the current user
+        const response = await api.get(
+          `/races/creator/${store.currentUser._id}`
+        );
+        this.races = response.data; // Store the races in the `races` array
+      } catch (error) {
+        console.error("Error fetching races by creator", error);
+        alert("An error occurred while fetching races.");
+      }
+    },
+  },
+
+  // Fetch races on component mount
+  mounted() {
+    this.fetchRacesByCreator();
   },
 };
 </script>
