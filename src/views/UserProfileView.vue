@@ -276,7 +276,7 @@ export default {
   padding: 20px;
 }
 
-.form-group {npm run serve
+.form-group {
   margin-bottom: 15px;
 }
 
