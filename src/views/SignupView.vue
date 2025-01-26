@@ -136,6 +136,7 @@ export default {
           username: this.userName,
           phoneNumber: this.phoneNumber,
           email: this.email,
+          role: "Guest",
           password: this.password,
           birthDate: this.birthDate,
         };
